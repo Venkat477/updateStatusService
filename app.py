@@ -12,14 +12,11 @@ def update_record():
     # the database
     
     if request.json:
-        print(request.json)
         if 'taskID' in request.json and 'status' in request.json:
             mongo_Collection.update({'taskID':request.json['taskID']},{'$set':{'status':request.json['status']}},upsert = True)
             return { 'statusCode': 200, 'body': 'Data Insertion Success!!!' }
-        else:
-            return { 'statusCode': 500, 'body': 'Check and Send TaskID and Status.' } 
-    else:
-        return { 'statusCode': 500, 'body': 'Send the request in Proper JSON Format.' }
+        else: return { 'statusCode': 500, 'body': 'Check and Send TaskID and Status.' } 
+    else: return { 'statusCode': 500, 'body': 'Send the request in Proper JSON Format.' }
     
 @app.route('/getRecord',methods=['POST'])
 def get_record():
@@ -29,14 +26,10 @@ def get_record():
     if request.json:
         if 'taskID' in request.json:
             obj = mongo_Collection.find_one({'taskID':request.json['taskID']})
-            if obj: 
-                return { 'statusCode': 200, 'body': obj }
-            else:
-                return { 'statusCode': 200, 'body': 'TaskID not Found' }
-        else:
-            return { 'statusCode': 500, 'body': 'Check and Send TaskID' } 
-    else:
-        return { 'statusCode': 500, 'body': 'Send the request in Proper JSON Format.' }
+            if obj:  return { 'statusCode': 200, 'body': obj }
+            else: return { 'statusCode': 200, 'body': 'TaskID not Found' }
+        else: return { 'statusCode': 500, 'body': 'Check and Send TaskID' } 
+    else: return { 'statusCode': 500, 'body': 'Send the request in Proper JSON Format.' }
 
 if __name__=='__main__':
     app.run(debug=True,host='localhost',port='7004')
