@@ -26,7 +26,9 @@ def get_record():
     if request.json:
         if 'taskID' in request.json:
             obj = mongo_Collection.find_one({'taskID':request.json['taskID']})
-            if obj:  return { 'statusCode': 200, 'body': obj }
+            if obj:  
+                del obj['_id']
+                return { 'statusCode': 200, 'body': obj }
             else: return { 'statusCode': 200, 'body': 'TaskID not Found' }
         else: return { 'statusCode': 500, 'body': 'Check and Send TaskID' } 
     else: return { 'statusCode': 500, 'body': 'Send the request in Proper JSON Format.' }
